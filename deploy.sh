@@ -11,6 +11,6 @@ docker push sidorov/multi-server:$SHA
 docker push sidorov/multi-worker:$SHA
 
 kubectl apply -f k8s
-kubectl set imege deployments/client-deployment client=sidorov/multi-client:$SHA
-kubectl set imege deployments/server-deployment server=sidorov/multi-server:$SHA
-kubectl set imege deployments/worker-deployment worker=sidorov/multi-worker:$SHA
+kubectl set image deployments/client-deployment client=sidorov/multi-client:$SHA
+kubectl set image deployments/server-deployment server=sidorov/multi-server:$SHA
+kubectl set image deployments/worker-deployment worker=sidorov/multi-worker:$SHA
