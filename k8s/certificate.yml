@@ -4,3 +4,17 @@ metadata:
   name: k8s-blaze-su-tls
 spec:
   secretName: k8s-blaze-su
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: k8s.blaze.su
+  dnsNames:
+    - k8s.blaze.su
+    - www.k8s.blaze.su
+  acme:
+    config:
+      - http01:
+          ingressClass: nginx
+        domains:
+          - k8s.blaze.su
+          - www.k8s.blaze.su
