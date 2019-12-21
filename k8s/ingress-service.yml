@@ -5,14 +5,13 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /$1
-    certmanager.k8s.io/cluster-issuer: 'letsencrypt-prod'
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/ssl-redirect: 'false'
 spec:
   tls:
     - hosts:
         - k8s.blaze.su
-        - www.k8s.blaze.su
-      secretName: k8s-blaze-su  
+      secretName: k8s-blaze-su
   rules:
     - host: k8s.blaze.su
       http:
@@ -25,14 +24,3 @@ spec:
             backend:
               serviceName: server-cluster-ip-service
               servicePort: 5000
-    - host: www.k8s.blaze.su
-      http:
-        paths:
-          - path: /?(.*)
-            backend:
-              serviceName: client-cluster-ip-service
-              servicePort: 3000
-          - path: /api/?(.*)
-            backend:
-              serviceName: server-cluster-ip-service
-              servicePort: 5000          
