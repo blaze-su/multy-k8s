@@ -1,19 +1,13 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: cert-manager-ssl
----
 apiVersion: cert-manager.io/v1alpha2
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt-pod
-  namespace: cert-manager-ssl
+  name: letsencrypt-prod
 spec:
   acme:
     server: https://acme-staging-v02.api.letsencrypt.org/directory
     email: director@blaze.su
     privateKeySecretRef:
-      name: letsencrypt-pod
+      name: letsencrypt-prod
     solvers:
       - selector: {}
         http01:
@@ -24,12 +18,11 @@ apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: k8s-blaze-su-cert
-  namespace: cert-manager-ssl
 spec:
   commonName: k8s.blaze.su
   secretName: k8s-blaze-su-tls
   issuerRef:
-    name: letsencrypt-pod
+    name: letsencrypt-prod
   dnsNames:
     - k8s.blaze.su
 ---
@@ -40,7 +33,8 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /$1
-    cert-manager.io/cluster-issuer: letsencrypt-pod
+    cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
 spec:
   tls:
     - hosts:
